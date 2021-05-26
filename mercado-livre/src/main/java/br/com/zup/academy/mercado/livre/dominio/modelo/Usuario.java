@@ -33,9 +33,9 @@ public class Usuario implements UserDetails{
 	public Usuario() {
 	}
 
-	public Usuario(String email, String senha) {
+	public Usuario(String email, SenhaLimpa senha) {
 		this.email = email;
-		this.senha = senha;
+		this.senha = senha.hash();
 	}
 	
 	public Long getId() {

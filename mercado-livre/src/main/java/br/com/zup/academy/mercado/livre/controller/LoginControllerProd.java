@@ -46,7 +46,7 @@ public class LoginControllerProd {
 			String token = this.tokenService.gerarToken(authenticate);
 			return ResponseEntity.ok(new TokenDto(token, "Bearer"));
 		} catch (AuthenticationException e) {
-			throw new NegocioException("Dados de Login são inválidos");
+			throw new NegocioException("Dados de login são inválidos");
 		}
 	}
 

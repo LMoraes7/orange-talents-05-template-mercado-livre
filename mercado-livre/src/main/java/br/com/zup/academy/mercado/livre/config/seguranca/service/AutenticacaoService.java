@@ -8,15 +8,18 @@ import org.springframework.stereotype.Service;
 import br.com.zup.academy.mercado.livre.dominio.repository.UsuarioRepository;
 
 @Service
-public class AutenticacaoService implements UserDetailsService{
+public class AutenticacaoService implements UserDetailsService {
 
 	private UsuarioRepository usuarioRepository;
-	
+
+	public AutenticacaoService(UsuarioRepository usuarioRepository) {
+		this.usuarioRepository = usuarioRepository;
+	}
+
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		return this.usuarioRepository.findByEmail(email)
 				.orElseThrow(() -> new UsernameNotFoundException("Dados Inválidos"));
-		
-	}
 
+	}
 }
