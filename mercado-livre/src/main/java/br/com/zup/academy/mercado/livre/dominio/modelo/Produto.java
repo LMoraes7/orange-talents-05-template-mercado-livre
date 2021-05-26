@@ -36,9 +36,14 @@ public class Produto {
 	private Integer quantEstoque;
 	@Column(columnDefinition = "VARCHAR(1000)", nullable = false)
 	private String descricao;
+	@CreationTimestamp
+	@Column(nullable = false, columnDefinition = "datetime")
+	private LocalDateTime instanteCadastro;
+
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Categoria categoria;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private Usuario usuario;
@@ -46,9 +51,8 @@ public class Produto {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Caracteristica> caracteristicas = new HashSet<>();
 
-	@CreationTimestamp
-	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDateTime instanteCadastro;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produto", cascade = CascadeType.ALL)
+	private Set<Imagem> imagens = new HashSet<Imagem>();
 
 	@Deprecated
 	public Produto() {
@@ -64,6 +68,14 @@ public class Produto {
 		this.usuario = usuario;
 		this.caracteristicas = caracteristicas.stream()
 				.map(caracteristicaForm -> caracteristicaForm.toCaracteristica(this)).collect(Collectors.toSet());
+	}
+	
+	public void associaImagens(Set<String> links) {
+		imagens = links.stream().map(link -> new Imagem(link, this)).collect(Collectors.toSet());
+	}
+
+	public boolean pertenceAoUsuario(Usuario possivelUsuario) {
+		return this.usuario.equals(possivelUsuario);
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 import br.com.zup.academy.mercado.livre.controller.form.ProdutoForm;
 
 @Component
-public class ProibeProdutoComCaracteristicasIguais implements Validator {
+public class ProibeProdutoComCaracteristicasIguaisValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
