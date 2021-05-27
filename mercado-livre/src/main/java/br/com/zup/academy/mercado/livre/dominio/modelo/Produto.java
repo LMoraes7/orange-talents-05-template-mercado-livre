@@ -48,11 +48,14 @@ public class Produto {
 	@JoinColumn(nullable = false)
 	private Usuario usuario;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produto", cascade = CascadeType.ALL)
 	private Set<Caracteristica> caracteristicas = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produto", cascade = CascadeType.ALL)
 	private Set<Imagem> imagens = new HashSet<Imagem>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produto", cascade = CascadeType.ALL)
+	private Set<Comentario> comentarios = new HashSet<Comentario>();
 
 	@Deprecated
 	public Produto() {
@@ -76,6 +79,10 @@ public class Produto {
 
 	public boolean pertenceAoUsuario(Usuario possivelUsuario) {
 		return this.usuario.equals(possivelUsuario);
+	}
+	
+	public void addComentario(Comentario comentario) {
+		this.comentarios.add(comentario);
 	}
 
 	@Override

@@ -25,6 +25,8 @@ public class ExisteIdValidator implements ConstraintValidator<ExisteId, Object>{
 	
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
+		if(value == null)
+			return true;
 		String jpql = "SELECT 1 FROM "+this.entidade.getName()+" x WHERE x."+this.campo+" = :value";
 		List<?> lista = this.manager.createQuery(jpql)
 			.setParameter("value", value)

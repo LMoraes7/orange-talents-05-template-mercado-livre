@@ -27,7 +27,7 @@ public class Usuario implements UserDetails {
 	private String senha;
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDateTime instanteCadastro; // = LocalDateTime.now();
+	private LocalDateTime instanteCadastro;
 
 	@Deprecated
 	public Usuario() {

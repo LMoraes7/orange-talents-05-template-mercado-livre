@@ -10,33 +10,46 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Imagem {
+public class Comentario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(nullable = false)
-	private String link;
+	private Byte nota;
+	@Column(nullable = false)
+	private String titulo;
+	@Column(nullable = false)
+	private String descricao;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private Produto produto;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
+	private Usuario usuario;
+
 	@Deprecated
-	public Imagem() {
+	public Comentario() {
 	}
 
-	public Imagem(String link, Produto produto) {
-		this.link = link;
+	public Comentario(Byte nota, String titulo, String descricao, Produto produto, Usuario usuario) {
+		this.nota = nota;
+		this.titulo = titulo;
+		this.descricao = descricao;
 		this.produto = produto;
+		this.usuario = usuario;
+		produto.addComentario(this);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((link == null) ? 0 : link.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((produto == null) ? 0 : produto.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
 
@@ -48,16 +61,21 @@ public class Imagem {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Imagem other = (Imagem) obj;
-		if (link == null) {
-			if (other.link != null)
+		Comentario other = (Comentario) obj;
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!link.equals(other.link))
+		} else if (!id.equals(other.id))
 			return false;
 		if (produto == null) {
 			if (other.produto != null)
 				return false;
 		} else if (!produto.equals(other.produto))
+			return false;
+		if (usuario == null) {
+			if (other.usuario != null)
+				return false;
+		} else if (!usuario.equals(other.usuario))
 			return false;
 		return true;
 	}

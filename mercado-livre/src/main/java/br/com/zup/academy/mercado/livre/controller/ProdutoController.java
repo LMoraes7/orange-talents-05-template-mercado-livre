@@ -2,9 +2,9 @@ package br.com.zup.academy.mercado.livre.controller;
 
 import java.util.Set;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,14 +16,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
+import br.com.zup.academy.mercado.livre.controller.form.ComentarioForm;
 import br.com.zup.academy.mercado.livre.controller.form.ImagemForm;
 import br.com.zup.academy.mercado.livre.controller.form.ProdutoForm;
+import br.com.zup.academy.mercado.livre.dominio.exception.ProdutoNaoEncontradoException;
+import br.com.zup.academy.mercado.livre.dominio.exception.UsuarioNaoTemPermissaoException;
 import br.com.zup.academy.mercado.livre.dominio.modelo.Categoria;
 import br.com.zup.academy.mercado.livre.dominio.modelo.Produto;
 import br.com.zup.academy.mercado.livre.dominio.modelo.Usuario;
-import br.com.zup.academy.mercado.livre.dominio.repository.CategoriaRepository;
 import br.com.zup.academy.mercado.livre.dominio.repository.ProdutoRepository;
 import br.com.zup.academy.mercado.livre.dominio.service.UploaderFake;
 import br.com.zup.academy.mercado.livre.infraestrutura.validacao.ProibeProdutoComCaracteristicasIguaisValidator;
@@ -32,14 +33,13 @@ import br.com.zup.academy.mercado.livre.infraestrutura.validacao.ProibeProdutoCo
 @RequestMapping("/produtos")
 public class ProdutoController {
 
+	private EntityManager manager;
 	private ProdutoRepository produtoRepository;
-	private CategoriaRepository categoriaRepository;
 	private UploaderFake uploaderFake;
 
-	public ProdutoController(ProdutoRepository produtoRepository, CategoriaRepository categoriaRepository,
-			UploaderFake uploaderFake) {
+	public ProdutoController(EntityManager manager, ProdutoRepository produtoRepository, UploaderFake uploaderFake) {
+		this.manager = manager;
 		this.produtoRepository = produtoRepository;
-		this.categoriaRepository = categoriaRepository;
 		this.uploaderFake = uploaderFake;
 	}
 
@@ -52,24 +52,30 @@ public class ProdutoController {
 	@Transactional
 	public ResponseEntity<Object> cadastrar(@RequestBody @Valid ProdutoForm produtoForm,
 			@AuthenticationPrincipal Usuario usuario) {
-		Categoria categoria = categoriaRepository.findById(produtoForm.getCategoriaId()).get();
+		Categoria categoria = this.manager.find(Categoria.class, produtoForm.getCategoriaId());
 		Produto produto = produtoForm.toProduto(categoria, usuario);
+		this.produtoRepository.save(produto);
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/{idProduto}/comentario")
+	@Transactional
+	public ResponseEntity<Object> cadastrarComentario(@PathVariable("idProduto") Long id,
+			@RequestBody @Valid ComentarioForm comentarioForm, @AuthenticationPrincipal Usuario usuario) {
+		Produto produto = this.produtoRepository.findById(id).orElseThrow(() -> new ProdutoNaoEncontradoException(id));
+		comentarioForm.toComentario(produto, usuario);
 		this.produtoRepository.save(produto);
 		return ResponseEntity.ok().build();
 	}
 
 	@PutMapping("/{idProduto}/imagens")
 	@Transactional
-	public ResponseEntity<Object> adicionaImagens(@PathVariable("idProduto") Long id, @Valid ImagemForm imagemForm,
+	public ResponseEntity<Object> adicionarImagens(@PathVariable("idProduto") Long id, @Valid ImagemForm imagemForm,
 			@AuthenticationPrincipal Usuario usuario) {
+		Produto produto = this.produtoRepository.findById(id).orElseThrow(() -> new ProdutoNaoEncontradoException(id));
 		Set<String> links = uploaderFake.envia(imagemForm.getImagens());
-//		O certo aqui seria fazer uma verificação para ver se o ID que estava sendo passado era válido ou não(caso não fosse válido, retornaria 404),
-//			porém eu ainda não implementei uma boa camada de Exceptions e nem de RestControllerAdvice. 
-//		Até o final desse desafio, vou ajeitar esses detalhes. 
-//		Estou focado em aprender os processos das novas funcionalidades que estão sendo ensinadas nos desafios.
-		Produto produto = this.produtoRepository.findById(id).get();
-		if(!produto.pertenceAoUsuario(usuario)) 
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem autorização para editar esse produto");
+		if (!produto.pertenceAoUsuario(usuario))
+			throw new UsuarioNaoTemPermissaoException();
 		produto.associaImagens(links);
 		this.produtoRepository.save(produto);
 		return ResponseEntity.ok().build();

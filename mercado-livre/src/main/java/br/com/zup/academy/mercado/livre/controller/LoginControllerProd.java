@@ -3,7 +3,6 @@ package br.com.zup.academy.mercado.livre.controller;
 
 import javax.validation.Valid;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -22,7 +21,7 @@ import br.com.zup.academy.mercado.livre.dominio.exception.NegocioException;
 import br.com.zup.academy.mercado.livre.dominio.modelo.Usuario;
 import br.com.zup.academy.mercado.livre.dominio.repository.UsuarioRepository;
 
-@Profile("prod")
+//@Profile("prod")
 @RestController
 @RequestMapping("/login")
 public class LoginControllerProd {
@@ -39,7 +38,7 @@ public class LoginControllerProd {
 	}
 	
 	@PostMapping
-	public Object login(@RequestBody @Valid LoginForm loginForm) {
+	public ResponseEntity<TokenDto> login(@RequestBody @Valid LoginForm loginForm) {
 		Authentication dadosLogin = loginForm.toDadosLogin();
 		try {
 			Authentication authenticate = this.auth.authenticate(dadosLogin);

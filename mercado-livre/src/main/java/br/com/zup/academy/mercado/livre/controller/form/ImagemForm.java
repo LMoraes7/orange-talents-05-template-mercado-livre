@@ -21,5 +21,4 @@ public class ImagemForm {
 	public void setImagens(List<MultipartFile> imagens) {
 		this.imagens = imagens;
 	}
-
 }
