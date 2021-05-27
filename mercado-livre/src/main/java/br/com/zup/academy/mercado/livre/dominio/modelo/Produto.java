@@ -56,6 +56,9 @@ public class Produto {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produto", cascade = CascadeType.ALL)
 	private Set<Comentario> comentarios = new HashSet<Comentario>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produto", cascade = CascadeType.ALL)
+	private Set<Pergunta> perguntas = new HashSet<Pergunta>();
 
 	@Deprecated
 	public Produto() {
@@ -73,6 +76,10 @@ public class Produto {
 				.map(caracteristicaForm -> caracteristicaForm.toCaracteristica(this)).collect(Collectors.toSet());
 	}
 	
+	public String getNome() {
+		return nome;
+	}
+	
 	public void associaImagens(Set<String> links) {
 		imagens = links.stream().map(link -> new Imagem(link, this)).collect(Collectors.toSet());
 	}
@@ -83,6 +90,14 @@ public class Produto {
 	
 	public void addComentario(Comentario comentario) {
 		this.comentarios.add(comentario);
+	}
+	
+	public void addPergunta(Pergunta pergunta) {
+		this.perguntas.add(pergunta);
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
 	@Override

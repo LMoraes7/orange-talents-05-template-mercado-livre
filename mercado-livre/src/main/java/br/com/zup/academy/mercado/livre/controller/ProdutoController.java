@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.zup.academy.mercado.livre.controller.form.ComentarioForm;
 import br.com.zup.academy.mercado.livre.controller.form.ImagemForm;
 import br.com.zup.academy.mercado.livre.controller.form.ProdutoForm;
 import br.com.zup.academy.mercado.livre.dominio.exception.ProdutoNaoEncontradoException;
@@ -26,7 +25,7 @@ import br.com.zup.academy.mercado.livre.dominio.modelo.Categoria;
 import br.com.zup.academy.mercado.livre.dominio.modelo.Produto;
 import br.com.zup.academy.mercado.livre.dominio.modelo.Usuario;
 import br.com.zup.academy.mercado.livre.dominio.repository.ProdutoRepository;
-import br.com.zup.academy.mercado.livre.dominio.service.UploaderFake;
+import br.com.zup.academy.mercado.livre.dominio.util.UploaderFake;
 import br.com.zup.academy.mercado.livre.infraestrutura.validacao.ProibeProdutoComCaracteristicasIguaisValidator;
 
 @RestController
@@ -54,16 +53,6 @@ public class ProdutoController {
 			@AuthenticationPrincipal Usuario usuario) {
 		Categoria categoria = this.manager.find(Categoria.class, produtoForm.getCategoriaId());
 		Produto produto = produtoForm.toProduto(categoria, usuario);
-		this.produtoRepository.save(produto);
-		return ResponseEntity.ok().build();
-	}
-
-	@PostMapping("/{idProduto}/comentario")
-	@Transactional
-	public ResponseEntity<Object> cadastrarComentario(@PathVariable("idProduto") Long id,
-			@RequestBody @Valid ComentarioForm comentarioForm, @AuthenticationPrincipal Usuario usuario) {
-		Produto produto = this.produtoRepository.findById(id).orElseThrow(() -> new ProdutoNaoEncontradoException(id));
-		comentarioForm.toComentario(produto, usuario);
 		this.produtoRepository.save(produto);
 		return ResponseEntity.ok().build();
 	}

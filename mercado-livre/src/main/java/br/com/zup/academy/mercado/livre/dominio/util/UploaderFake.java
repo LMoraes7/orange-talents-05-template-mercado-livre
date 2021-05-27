@@ -1,4 +1,4 @@
-package br.com.zup.academy.mercado.livre.dominio.service;
+package br.com.zup.academy.mercado.livre.dominio.util;
 
 import java.util.Set;
 import java.util.stream.Collectors;
