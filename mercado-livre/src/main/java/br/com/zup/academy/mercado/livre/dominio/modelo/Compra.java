@@ -1,6 +1,7 @@
 package br.com.zup.academy.mercado.livre.dominio.modelo;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 
 import org.springframework.util.Assert;
 
@@ -37,6 +39,8 @@ public class Compra {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private Usuario comprador;
+	@Column(nullable = false)
+	private String codigo;
 
 	public Compra(Integer quantidade, Produto produto, Pagamento pagamento, Usuario comprador) {
 		Assert.isTrue(produto.abaterEstoque(quantidade),
@@ -47,6 +51,15 @@ public class Compra {
 		this.pagamento = pagamento;
 		this.comprador = comprador;
 		this.status = Status.INICIADA;
+	}
+	
+	@PrePersist
+	private void gerarCogido() {
+		this.codigo = UUID.randomUUID().toString();
+	}
+	
+	public String getUrl() {
+		return this.pagamento.getUrl(this.codigo);
 	}
 
 	public Pagamento getPagamento() {

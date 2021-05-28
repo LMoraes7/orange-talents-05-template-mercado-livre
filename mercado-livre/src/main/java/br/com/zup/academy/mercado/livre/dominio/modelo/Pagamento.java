@@ -1,35 +1,19 @@
 package br.com.zup.academy.mercado.livre.dominio.modelo;
 
-import br.com.zup.academy.mercado.livre.dominio.util.GeradorDeStringGateway;
-
 public enum Pagamento {
 	
 	PAYPAL {
 		@Override
-		public Long getId() {
-			return id++;
-		}
-
-		@Override
-		public String getUrl() {
-			return GeradorDeStringGateway.gerarUrl("https://paypal/pagamentos/");
+		public String getUrl(String url) {
+			return "paypal.com?buyerId="+url+"&redirectUrl=https://urlqualquer.com";
 		}
 	},
-	PAGSEGURO {
+	PAGSEGURO { 
 		@Override
-		public Long getId() {
-			return id++;
-		}
-
-		@Override
-		public String getUrl() {
-			return GeradorDeStringGateway.gerarUrl("https://pagseguro/pagamentos/");
+		public String getUrl(String url) {
+			return "pagseguro.com?buyerId="+url+"&redirectUrl=https://urlqualquer.com";
 		}
 	};
 	
-	private static Long id = 1L;
-	
-	public abstract Long getId();
-	
-	public abstract String getUrl();
+	public abstract String getUrl(String url);
 }

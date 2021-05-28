@@ -62,9 +62,7 @@ public class CompraController {
 						+ usuario.getUsername())
 				.build();
 		this.notificador.notificar(notificacao);
-		Long pagamentoId = compra.getPagamento().getId();
-		String urlPagamento = compra.getPagamento().getUrl().concat(pagamentoId.toString());
-		return ResponseEntity.status(HttpStatus.FOUND)
-				.body("pagseguro.com?returnId={" + pagamentoId + "}&redirectUrl={" + urlPagamento + "}");
+		return ResponseEntity.status(HttpStatus.FOUND).body(compra.getUrl());
+				
 	}
 }
