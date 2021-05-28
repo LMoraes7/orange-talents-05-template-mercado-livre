@@ -43,6 +43,22 @@ public class Comentario {
 		produto.addComentario(this);
 	}
 
+	public Byte getNota() {
+		return nota;
+	}
+	
+	public String getTitulo() {
+		return titulo;
+	}
+	
+	public String getDescricao() {
+		return descricao;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -21,3 +21,11 @@ insert into caracteristica(nome, descricao, produto_id) values ('largura','largu
 insert into caracteristica(nome, descricao, produto_id) values ('textura','textura bonita', 3);
 insert into caracteristica(nome, descricao, produto_id) values ('altura','altura bonita', 3);
 insert into caracteristica(nome, descricao, produto_id) values ('largura','largura bonita', 3);
+
+insert into pergunta(titulo, data, produto_id, usuario_id) values ('Pergunta 1', utc_timestamp, 1, 1);
+insert into pergunta(titulo, data, produto_id, usuario_id) values ('Pergunta 2', utc_timestamp, 1, 2);
+insert into pergunta(titulo, data, produto_id, usuario_id) values ('Pergunta 3', utc_timestamp, 2, 1);
+
+insert into comentario(nota, titulo, descricao, produto_id, usuario_id) values (2, 'Título 1', 'Descrição 1', 1, 1) ;
+insert into comentario(nota, titulo, descricao, produto_id, usuario_id) values (4, 'Título 2', 'Descrição 2', 1, 2) ;
+insert into comentario(nota, titulo, descricao, produto_id, usuario_id) values (2, 'Título 3', 'Descrição 3', 1, 1) ;

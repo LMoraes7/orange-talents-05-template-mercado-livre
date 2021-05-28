@@ -1,9 +1,11 @@
 package br.com.zup.academy.mercado.livre.dominio.modelo;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -80,8 +82,27 @@ public class Produto {
 		return nome;
 	}
 	
+	public BigDecimal getValor() {
+		return valor;
+	}
+	
+	public String getDescricao() {
+		return descricao;
+	}
+	
+	public BigDecimal getMediaNotas() {
+		OptionalDouble mediaOptional = this.comentarios.stream().mapToInt(comentario -> comentario.getNota()).average();
+		if(mediaOptional.isPresent())
+			return new BigDecimal(mediaOptional.getAsDouble()).setScale(2, RoundingMode.HALF_EVEN);
+		return new BigDecimal("0.0");
+	}
+	
+	public int getQuantNotas() {
+		return this.comentarios.size();
+	}
+	
 	public void associaImagens(Set<String> links) {
-		imagens = links.stream().map(link -> new Imagem(link, this)).collect(Collectors.toSet());
+		links.stream().map(link -> new Imagem(link, this)).collect(Collectors.toSet());
 	}
 
 	public boolean pertenceAoUsuario(Usuario possivelUsuario) {
@@ -96,8 +117,28 @@ public class Produto {
 		this.perguntas.add(pergunta);
 	}
 	
+	public void addImagem(Imagem imagem) {
+		this.imagens.add(imagem);
+	}
+	
 	public Usuario getUsuario() {
 		return usuario;
+	}
+	
+	public Set<Caracteristica> getCaracteristicas() {
+		return caracteristicas;
+	}
+	
+	public Set<Comentario> getComentarios() {
+		return comentarios;
+	}
+	
+	public Set<Pergunta> getPerguntas() {
+		return perguntas;
+	}
+	
+	public Set<Imagem> getImagens() {
+		return imagens;
 	}
 
 	@Override

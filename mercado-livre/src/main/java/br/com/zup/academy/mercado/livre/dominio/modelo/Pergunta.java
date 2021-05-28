@@ -59,6 +59,14 @@ public class Pergunta {
 	public String getTitulo() {
 		return titulo;
 	}
+	
+	public LocalDateTime getData() {
+		return data;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
 
 	@Override
 	public int hashCode() {

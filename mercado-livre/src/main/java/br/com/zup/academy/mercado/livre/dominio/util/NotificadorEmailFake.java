@@ -8,12 +8,13 @@ import org.springframework.stereotype.Component;
 public class NotificadorEmailFake implements Notificador{
 
 	@Override
-	public void notificar(String emailDoPerguntador, String emailDoVendedor, String assunto, String corpo) {
+	public void notificar(Notificacao notificacao) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("\nRemetente: "+ emailDoPerguntador);
-		builder.append("\nDestinatário: "+ emailDoVendedor);
-		builder.append("\nAssunto: "+ assunto);
-		builder.append("\nCorpo: "+ corpo);
+		
+		builder.append("\nRemetente: mercadolivre@email.com.br");
+		builder.append("\nDestinatário: "+ notificacao.getUsuarioDonoDoProduto().getUsername());
+		builder.append("\nAssunto: "+ notificacao.getAssunto());
+		builder.append("\nCorpo: "+ notificacao.getCorpo());
 		
 		String email = builder.toString();
 		System.out.println("ENVIANDO EMAIL" + email);

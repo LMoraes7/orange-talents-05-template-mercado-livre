@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.zup.academy.mercado.livre.controller.dto.ProdutoDetalhadoDto;
 import br.com.zup.academy.mercado.livre.controller.form.ImagemForm;
 import br.com.zup.academy.mercado.livre.controller.form.ProdutoForm;
 import br.com.zup.academy.mercado.livre.dominio.exception.ProdutoNaoEncontradoException;
@@ -45,6 +47,13 @@ public class ProdutoController {
 	@InitBinder(value = "produtoForm")
 	public void init(WebDataBinder binder) {
 		binder.addValidators(new ProibeProdutoComCaracteristicasIguaisValidator());
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<ProdutoDetalhadoDto> listarPorId(@PathVariable("id") Long id) {
+		Produto produto = this.produtoRepository.findById(id).orElseThrow(() -> new ProdutoNaoEncontradoException(id));
+		ProdutoDetalhadoDto produtoDetalhadoDto = new ProdutoDetalhadoDto(produto);
+		return ResponseEntity.ok(produtoDetalhadoDto);
 	}
 
 	@PostMapping

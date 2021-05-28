@@ -21,16 +21,15 @@ import br.com.zup.academy.mercado.livre.dominio.exception.NegocioException;
 import br.com.zup.academy.mercado.livre.dominio.modelo.Usuario;
 import br.com.zup.academy.mercado.livre.dominio.repository.UsuarioRepository;
 
-//@Profile("prod")
 @RestController
 @RequestMapping("/login")
-public class LoginControllerProd {
+public class LoginController {
 
 	private UsuarioRepository usuarioRepository;
 	private AuthenticationManager auth;
 	private TokenService tokenService;
 
-	public LoginControllerProd(UsuarioRepository usuarioRepository, AuthenticationManager auth, 
+	public LoginController(UsuarioRepository usuarioRepository, AuthenticationManager auth, 
 			TokenService tokenService) {
 		this.usuarioRepository = usuarioRepository;
 		this.auth = auth;

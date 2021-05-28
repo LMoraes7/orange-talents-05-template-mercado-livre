@@ -29,12 +29,18 @@ public class Imagem {
 	public Imagem(String link, Produto produto) {
 		this.link = link;
 		this.produto = produto;
+		produto.addImagem(this);
+	}
+
+	public String getLink() {
+		return link;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((link == null) ? 0 : link.hashCode());
 		result = prime * result + ((produto == null) ? 0 : produto.hashCode());
 		return result;
@@ -49,6 +55,11 @@ public class Imagem {
 		if (getClass() != obj.getClass())
 			return false;
 		Imagem other = (Imagem) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
 		if (link == null) {
 			if (other.link != null)
 				return false;
