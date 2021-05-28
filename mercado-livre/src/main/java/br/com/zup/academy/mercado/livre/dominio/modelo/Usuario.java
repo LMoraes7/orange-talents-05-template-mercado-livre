@@ -101,4 +101,10 @@ public class Usuario implements UserDetails {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Usuario [email=" + email + "]";
+	}
+
 }

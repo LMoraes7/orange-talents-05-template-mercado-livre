@@ -55,10 +55,10 @@ public class Produto {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produto", cascade = CascadeType.ALL)
 	private Set<Imagem> imagens = new HashSet<Imagem>();
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produto", cascade = CascadeType.ALL)
 	private Set<Comentario> comentarios = new HashSet<Comentario>();
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produto", cascade = CascadeType.ALL)
 	private Set<Pergunta> perguntas = new HashSet<Pergunta>();
 
@@ -77,30 +77,30 @@ public class Produto {
 		this.caracteristicas = caracteristicas.stream()
 				.map(caracteristicaForm -> caracteristicaForm.toCaracteristica(this)).collect(Collectors.toSet());
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
-	
+
 	public BigDecimal getValor() {
 		return valor;
 	}
-	
+
 	public String getDescricao() {
 		return descricao;
 	}
-	
+
 	public BigDecimal getMediaNotas() {
 		OptionalDouble mediaOptional = this.comentarios.stream().mapToInt(comentario -> comentario.getNota()).average();
-		if(mediaOptional.isPresent())
+		if (mediaOptional.isPresent())
 			return new BigDecimal(mediaOptional.getAsDouble()).setScale(2, RoundingMode.HALF_EVEN);
 		return new BigDecimal("0.0");
 	}
-	
+
 	public int getQuantNotas() {
 		return this.comentarios.size();
 	}
-	
+
 	public void associaImagens(Set<String> links) {
 		links.stream().map(link -> new Imagem(link, this)).collect(Collectors.toSet());
 	}
@@ -108,35 +108,41 @@ public class Produto {
 	public boolean pertenceAoUsuario(Usuario possivelUsuario) {
 		return this.usuario.equals(possivelUsuario);
 	}
-	
+
 	public void addComentario(Comentario comentario) {
 		this.comentarios.add(comentario);
 	}
-	
+
 	public void addPergunta(Pergunta pergunta) {
 		this.perguntas.add(pergunta);
 	}
-	
+
 	public void addImagem(Imagem imagem) {
 		this.imagens.add(imagem);
 	}
-	
+
+	public void abaterEstoque(Integer quantidade) {
+		if (this.quantEstoque.compareTo(quantidade) < 0)
+			throw new IllegalArgumentException("Quantidade de estoque é inferior a quantidade para abater");
+		this.quantEstoque -= quantidade;
+	}
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
-	
+
 	public Set<Caracteristica> getCaracteristicas() {
 		return caracteristicas;
 	}
-	
+
 	public Set<Comentario> getComentarios() {
 		return comentarios;
 	}
-	
+
 	public Set<Pergunta> getPerguntas() {
 		return perguntas;
 	}
-	
+
 	public Set<Imagem> getImagens() {
 		return imagens;
 	}
@@ -164,5 +170,10 @@ public class Produto {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Produto [nome=" + nome + ", quantEstoque=" + quantEstoque + "]";
 	}
 }

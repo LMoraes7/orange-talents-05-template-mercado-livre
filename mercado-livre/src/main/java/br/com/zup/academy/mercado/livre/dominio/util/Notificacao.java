@@ -8,20 +8,11 @@ public class Notificacao {
 	private Usuario usuarioDonoDoProduto;
 	private String assunto;
 	private String corpo;
-	
-	public Notificacao(Usuario usuarioInterassado) {
+
+	public Notificacao(Usuario usuarioInterassado, Usuario usuarioDonoDoProduto, String assunto, String corpo) {
 		this.usuarioInterassado = usuarioInterassado;
-	}
-	
-	public void addDestinatario(Usuario remetente) {
-		this.usuarioDonoDoProduto = remetente;
-	}
-	
-	public void addAssunto(String assunto) {
+		this.usuarioDonoDoProduto = usuarioDonoDoProduto;
 		this.assunto = assunto;
-	}
-	
-	public void addCorpo(String corpo) {
 		this.corpo = corpo;
 	}
 
