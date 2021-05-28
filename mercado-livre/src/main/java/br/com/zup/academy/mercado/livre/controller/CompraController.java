@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.zup.academy.mercado.livre.controller.form.CompraForm;
-import br.com.zup.academy.mercado.livre.dominio.exception.NegocioException;
+import br.com.zup.academy.mercado.livre.dominio.exception.CompraInvalidaException;
 import br.com.zup.academy.mercado.livre.dominio.exception.ProdutoNaoEncontradoException;
 import br.com.zup.academy.mercado.livre.dominio.modelo.Compra;
 import br.com.zup.academy.mercado.livre.dominio.modelo.Produto;
@@ -51,10 +51,9 @@ public class CompraController {
 		try {
 			compra = compraForm.toCompra(produto, usuario);
 		} catch (IllegalArgumentException e) {
-			throw new NegocioException(e.getMessage());
+			throw new CompraInvalidaException(e.getMessage());
 		}
 		this.compraRepository.save(compra);
-		this.produtoRepository.save(produto);
 		Notificacao notificacao = new CriadorDeNotificacao()
 				.deUsuarioInteressado(usuario)
 				.paraDestinatario(produto.getUsuario())

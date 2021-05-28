@@ -1,5 +1,7 @@
 package br.com.zup.academy.mercado.livre.dominio.modelo;
 
+import br.com.zup.academy.mercado.livre.dominio.util.GeradorDeStringGateway;
+
 public enum Pagamento {
 	
 	PAYPAL {
@@ -10,7 +12,7 @@ public enum Pagamento {
 
 		@Override
 		public String getUrl() {
-			return "https://paypal/pagamentos/";
+			return GeradorDeStringGateway.gerarUrl("https://paypal/pagamentos/");
 		}
 	},
 	PAGSEGURO {
@@ -21,7 +23,7 @@ public enum Pagamento {
 
 		@Override
 		public String getUrl() {
-			return "https://pagseguro/pagamentos/";
+			return GeradorDeStringGateway.gerarUrl("https://pagseguro/pagamentos/");
 		}
 	};
 	

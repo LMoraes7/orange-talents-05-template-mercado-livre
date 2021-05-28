@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.springframework.util.Assert;
+
 @Entity
 public class Compra {
 
@@ -37,7 +39,8 @@ public class Compra {
 	private Usuario comprador;
 
 	public Compra(Integer quantidade, Produto produto, Pagamento pagamento, Usuario comprador) {
-		produto.abaterEstoque(quantidade);
+		Assert.isTrue(produto.abaterEstoque(quantidade),
+				"Quantidade de estoque é insuficiente para a quantidade de compra desejada");
 		this.produto = produto;
 		this.quantidade = quantidade;
 		this.valorTotal = produto.getValor().multiply(new BigDecimal(quantidade));
@@ -45,11 +48,11 @@ public class Compra {
 		this.comprador = comprador;
 		this.status = Status.INICIADA;
 	}
-	
+
 	public Pagamento getPagamento() {
 		return pagamento;
 	}
-	
+
 	public void attStatusDaCompra(Status status) {
 		this.status = status;
 	}

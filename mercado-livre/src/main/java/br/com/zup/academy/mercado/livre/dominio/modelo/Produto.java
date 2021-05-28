@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.util.Assert;
 
 import br.com.zup.academy.mercado.livre.controller.form.CaracteristicaForm;
 
@@ -121,10 +122,12 @@ public class Produto {
 		this.imagens.add(imagem);
 	}
 
-	public void abaterEstoque(Integer quantidade) {
-		if (this.quantEstoque.compareTo(quantidade) < 0)
-			throw new IllegalArgumentException("Quantidade de estoque é inferior a quantidade para abater");
+	public boolean abaterEstoque(Integer quantidade) {
+		Assert.isTrue(quantidade > 0, "Quantidade para abater não pode ser menor ou igual do que 0");
+		if(this.quantEstoque.compareTo(quantidade) < 0)
+			return false;
 		this.quantEstoque -= quantidade;
+		return true;
 	}
 
 	public Usuario getUsuario() {
