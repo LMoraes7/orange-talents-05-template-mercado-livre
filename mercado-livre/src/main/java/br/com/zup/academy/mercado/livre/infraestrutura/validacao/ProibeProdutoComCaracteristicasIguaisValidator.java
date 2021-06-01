@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import br.com.zup.academy.mercado.livre.controller.form.ProdutoForm;
+import br.com.zup.academy.mercado.livre.controller.produto.form.ProdutoForm;
 
 @Component
 public class ProibeProdutoComCaracteristicasIguaisValidator implements Validator {

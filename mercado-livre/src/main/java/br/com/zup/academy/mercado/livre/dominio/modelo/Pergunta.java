@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import br.com.zup.academy.mercado.livre.dominio.modelo.produto.Produto;
+import br.com.zup.academy.mercado.livre.dominio.modelo.usuario.Usuario;
+
 @Entity
 public class Pergunta {
 

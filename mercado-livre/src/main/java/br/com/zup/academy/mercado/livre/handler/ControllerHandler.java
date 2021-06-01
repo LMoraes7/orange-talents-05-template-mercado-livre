@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import br.com.zup.academy.mercado.livre.dominio.exception.EntidadeNaoEncontradaException;
 import br.com.zup.academy.mercado.livre.dominio.exception.NegocioException;
-import br.com.zup.academy.mercado.livre.dominio.exception.UsuarioNaoTemPermissaoException;
+import br.com.zup.academy.mercado.livre.dominio.exception.usuario.UsuarioNaoTemPermissaoException;
+import br.com.zup.academy.mercado.livre.handler.dto.ErroDto;
+import br.com.zup.academy.mercado.livre.handler.dto.ErrosDeFormularioDto;
 
 @RestControllerAdvice
 public class ControllerHandler {

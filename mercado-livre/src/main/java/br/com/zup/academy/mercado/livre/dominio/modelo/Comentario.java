@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import br.com.zup.academy.mercado.livre.dominio.modelo.produto.Produto;
+import br.com.zup.academy.mercado.livre.dominio.modelo.usuario.Usuario;
+
 @Entity
 public class Comentario {
 

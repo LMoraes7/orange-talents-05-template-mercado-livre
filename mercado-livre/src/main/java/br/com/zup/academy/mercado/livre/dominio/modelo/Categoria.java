@@ -15,18 +15,16 @@ public class Categoria {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@Column(unique = true, nullable = false)
 	private String nome;
-	@JoinColumn(nullable = true)
+	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(nullable = true)
 	private Categoria categoriaMae;
 
 	@Deprecated
 	public Categoria() {
-	}
-
-	public Categoria(String nome) {
-		this.nome = nome;
 	}
 
 	public Categoria(String nome, Categoria categoriaMae) {

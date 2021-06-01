@@ -29,3 +29,9 @@ insert into pergunta(titulo, data, produto_id, usuario_id) values ('Pergunta 3',
 insert into comentario(nota, titulo, descricao, produto_id, usuario_id) values (2, 'Título 1', 'Descrição 1', 1, 1) ;
 insert into comentario(nota, titulo, descricao, produto_id, usuario_id) values (4, 'Título 2', 'Descrição 2', 1, 2) ;
 insert into comentario(nota, titulo, descricao, produto_id, usuario_id) values (2, 'Título 3', 'Descrição 3', 1, 1) ;
+
+insert into compra(quantidade, valor_total, codigo, pagamento, status, usuario_id, produto_id, aprovada) values (1, 150.00, '123', 'PAYPAL', 'APROVADA', 1, 1, 1);
+insert into compra(quantidade, valor_total, codigo, pagamento, status, usuario_id, produto_id, aprovada) values (2, 300.00, '12345', 'PAYPAL', 'APROVADA', 1, 2, 0);
+
+insert into transacao(id_transacao, status, instante, compra_id) values (12345, 'SUCESSO', utc_timestamp, 1);
+insert into transacao(id_transacao, status, instante, compra_id) values (123, 'FALHA', utc_timestamp, 2);
