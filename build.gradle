@@ -31,6 +31,8 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     implementation("io.micronaut:micronaut-validation")
     implementation("org.apache.logging.log4j:log4j-core:2.14.1")
+    implementation("org.springframework.security:spring-security-crypto:5.5.2")
+    implementation("commons-logging:commons-logging:1.2")
 }
 
 
