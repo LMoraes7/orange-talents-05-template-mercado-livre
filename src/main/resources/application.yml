@@ -16,4 +16,4 @@ jpa.default.properties.hibernate.hbm2ddl.auto: update
 jpa:
   default:
     entity-scan:
-      packages: 'br.com.zup.academy.dominio.modelo'
+      packages: 'br.com.zup.academy.domain.model'
