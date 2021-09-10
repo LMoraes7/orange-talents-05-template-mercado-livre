@@ -1,6 +1,7 @@
 package br.com.zup.academy.controller.request;
 
 import br.com.zup.academy.domain.model.User;
+import br.com.zup.academy.domain.validation.UniqueValue;
 import io.micronaut.core.annotation.Introspected;
 
 import javax.validation.constraints.Email;
@@ -13,6 +14,7 @@ public class NewUserRequest {
 
     @NotBlank
     @Email
+    @UniqueValue(entity = User.class, field = "email")
     private String email;
 
     @NotNull
