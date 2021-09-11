@@ -1,6 +1,16 @@
 micronaut:
   application:
     name: micronautMercadoLivre
+  security:
+    enabled: true
+    reject-not-found: false
+    authentication: bearer
+    token:
+      jwt:
+        generator:
+          secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
+          access-token:
+            expiration: 1800
 
 datasources:
   default:
@@ -11,9 +21,13 @@ datasources:
     schema-generate: CREATE_DROP
     dialect: H2
 
-jpa.default.properties.hibernate.hbm2ddl.auto: update
+#jpa.default.properties.hibernate.hbm2ddl.auto: update
 
 jpa:
   default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
     entity-scan:
       packages: 'br.com.zup.academy.domain.model'
