@@ -5,12 +5,12 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-@Constraint(validatedBy = {UniqueValueValidator.class})
-public @interface UniqueValue {
+@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = {ValidateEntityValidator.class})
+public @interface ValidateEntity {
 
-    String message() default "Value informed has already been registered. Please try another value.";
+    String message() default "Entered value does not reference a record. Please enter another value.";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
     String field();
